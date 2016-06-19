@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,7 +7,6 @@ using Humanizer;
 
 namespace Citizens
 {
-
     public class Citizen : ICitizen
     {
         private Gender gender;
@@ -20,7 +19,7 @@ namespace Citizens
         {
             get
             {
-                return firstName;
+                return this.firstName;
             }
         }
 
@@ -28,7 +27,7 @@ namespace Citizens
         {
             get
             {
-                return lastName;
+                return this.lastName;
             }
         }
 
@@ -36,7 +35,7 @@ namespace Citizens
         {
             get
             {
-                return gender;
+                return this.gender;
             }
         }
 
@@ -44,7 +43,7 @@ namespace Citizens
         {
             get
             {
-                return dateOfBirth;
+                return this.dateOfBirth;
             }
         }
 
@@ -52,27 +51,23 @@ namespace Citizens
         {
             get
             {
-                return vatId;
+                return this.vatId;
             }
 
             set
             {
-                vatId = value;
+                this.vatId = value;
             }
         }
 
-
-
-        public Citizen()
-        { }
-
         public Citizen(string firstName, string lastName, DateTime dateOfBirth, Gender gender)
         {
+            this.firstName      = firstName.Transform(To.LowerCase, To.TitleCase);
+            this.lastName       = lastName.Transform(To.LowerCase, To.TitleCase);
 
+            TimeSpan liveTime   = SystemDateTime.Now() - dateOfBirth;
 
-            this.firstName = firstName.Transform(To.LowerCase, To.TitleCase);
-            this.lastName = lastName.Transform(To.LowerCase, To.TitleCase);
-            if ((SystemDateTime.Now() - dateOfBirth).TotalDays >= 0)
+            if (liveTime.Days >= 0)
             {
                 this.dateOfBirth = dateOfBirth.Date;
             }
@@ -87,17 +82,17 @@ namespace Citizens
             }
             else
             {
-                throw new ArgumentOutOfRangeException();
+                throw new ArgumentOutOfRangeException("Passed improper enum element", "gender");
             }
         }
 
         public Citizen(ICitizen ob)
         {
-            this.firstName = ob.FirstName;
-            this.lastName = ob.LastName;
-            this.dateOfBirth = ob.BirthDate;
-            this.gender = ob.Gender;
-            this.vatId = ob.VatId;
+            this.firstName      = ob.FirstName;
+            this.lastName       = ob.LastName;
+            this.dateOfBirth    = ob.BirthDate;
+            this.gender         = ob.Gender;
+            this.vatId          = ob.VatId;
         }
     }
 }
