@@ -8,7 +8,6 @@ namespace Citizens
     {
         private readonly DateTime refDate   = new DateTime(1899, 12, 31);
         private ICitizen[] citizenArray     = new ICitizen[20];
-        private int lastInd                 = 0;
         private DateTime lastRegDate;
 
         public ICitizen this[string id]
@@ -17,14 +16,15 @@ namespace Citizens
             {
                 if (String.IsNullOrEmpty(id))
                 {
-                    throw new ArgumentNullException("Parameter cannot be null");
+                    throw new ArgumentNullException("id","Given parameter cannot be null");
                 }
 
                 for (int j = 0; j < this.citizenArray.Length; j++)
                 {
-                    if (this.citizenArray[j] != null && string.Equals(this.citizenArray[j].VatId, id))
+                    var item = citizenArray[j];
+                    if (item != null && string.Equals(item.VatId, id))
                     {
-                        return this.citizenArray[j];
+                        return item;
                     }
                 }
                 return null;
@@ -85,9 +85,10 @@ namespace Citizens
             {
                 for (int i = 0; i < this.citizenArray.Length; i++)
                 {
-                    if (this.citizenArray[i] == null)
+                    var item = this.citizenArray[i];
+                    if (item == null)
                     {
-                        this.citizenArray[i]    = new Citizen(citizen);
+                        item                    = new Citizen(citizen);
                         this.lastRegDate        = SystemDateTime.Now();
                         break;
                     }
