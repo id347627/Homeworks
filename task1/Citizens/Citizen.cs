@@ -82,7 +82,7 @@ namespace Citizens
             }
             else
             {
-                throw new ArgumentOutOfRangeException("Passed improper enum element", "gender");
+                throw new ArgumentOutOfRangeException("gender", "Passed improper enum element");
             }
         }
 
